@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "A database migration tool for MongoDB using Node.js",
   "scripts": {
-    "lint": "eslint src/",
+    "start:update-database": "npx tsx src/mongo-migrator.ts update-database",
+    "lint": "eslint .",
     "format": "prettier --write ."
   },
   "author": "Sergio Martin",
@@ -31,7 +32,9 @@
     "mongodb": "^6.11.0"
   },
   "devDependencies": {
-    "eslint": "^9.15.0",
+    "@babel/core": "^7.26.0",
+    "@babel/eslint-parser": "^7.25.9",
+    "eslint": "^9.16.0",
     "eslint-config-prettier": "^8.5.0",
     "prettier": "^3.4.2"
   }

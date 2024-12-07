@@ -2,7 +2,7 @@ module.exports = [
   {
     // files: ["*.ts"],
     rules: {
-      semi: ["error"],
+      semi: ['error'],
     },
   },
 ];

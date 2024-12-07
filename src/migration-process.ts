@@ -1,5 +1,5 @@
-import * as mongoDB from "mongodb";
-import { MongoClientOptions } from "mongodb";
+import * as mongoDB from 'mongodb';
+import { MongoClientOptions } from 'mongodb';
 
 // export class MigrationProcess{
 
@@ -8,19 +8,16 @@ import { MongoClientOptions } from "mongodb";
 //     }
 // }
 
-export async function MigrationUp(
-  DB_CONN_STRING: string | undefined,
-  DB_NAME: string | undefined
-): Promise<void> {
-  console.log("Migration UP process started...");
+export async function MigrationUp(DB_CONN_STRING: string | undefined, DB_NAME: string | undefined): Promise<void> {
+  console.log('Migration UP process started...');
 
   if (!DB_CONN_STRING) {
-    console.error("Connection string is missing");
+    console.error('Connection string is missing');
     return;
   }
 
   if (!DB_NAME) {
-    console.error("Database name is missing");
+    console.error('Database name is missing');
     return;
   }
 
@@ -29,12 +26,9 @@ export async function MigrationUp(
     timeoutMS: 50000,
     socketTimeoutMS: 50000,
     maxIdleTimeMS: 50000,
-    appName: "migrate-mongo",
+    appName: 'migrate-mongo',
   };
-  const client: mongoDB.MongoClient = new mongoDB.MongoClient(
-    DB_CONN_STRING,
-    options
-  );
+  const client: mongoDB.MongoClient = new mongoDB.MongoClient(DB_CONN_STRING, options);
   await client.connect();
   const session = await client.startSession();
   await session.withTransaction(async (options) => {
@@ -46,19 +40,17 @@ export async function MigrationUp(
       const db: mongoDB.Db = client.db(DB_NAME);
 
       // const query = { _id: new ObjectId(id) };
-      const query = { TradeName: "/Deudores/" };
+      const query = { TradeName: '/Deudores/' };
 
-      await db
-        .collection("ACCReadCustomers")
-        .updateMany(query, { $set: { TradeName: "Deudores (euros) 2" } });
+      await db.collection('ACCReadCustomers').updateMany(query, { $set: { TradeName: 'Deudores (euros) 2' } });
     } finally {
       await session.endSession();
     }
   });
 
-  console.log("... migration UP process end");
+  console.log('... migration UP process end');
 }
 
 export async function MigrationDown(params: string): Promise<void> {
-  console.log("Migration Down process started");
+  console.log('Migration Down process started');
 }

@@ -51,6 +51,6 @@ export async function MigrationUp(DB_CONN_STRING: string | undefined, DB_NAME: s
   console.log('... migration UP process end');
 }
 
-export async function MigrationDown(params: string): Promise<void> {
+export async function MigrationDown(DB_CONN_STRING: string | undefined, DB_NAME: string | undefined): Promise<void> {
   console.log('Migration Down process started');
 }

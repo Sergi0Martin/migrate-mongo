@@ -1,5 +1,5 @@
-import * as mongoDB from 'mongodb';
-import { MongoClientOptions } from 'mongodb';
+import { MongoClient } from 'mongodb';
+import type { MongoClientOptions } from 'mongodb';
 
 // export class MigrationProcess{
 
@@ -28,7 +28,7 @@ export async function MigrationUp(DB_CONN_STRING: string | undefined, DB_NAME: s
     maxIdleTimeMS: 50000,
     appName: 'migrate-mongo',
   };
-  const client: mongoDB.MongoClient = new mongoDB.MongoClient(DB_CONN_STRING, options);
+  const client: MongoClient = new MongoClient(DB_CONN_STRING, options);
   await client.connect();
   const session = await client.startSession();
   await session.withTransaction(async (options) => {
@@ -37,7 +37,7 @@ export async function MigrationUp(DB_CONN_STRING: string | undefined, DB_NAME: s
     try {
       /// Desde aquí debería cargar los archivos de migración y ejecutarlos (cada archivo modifica una collection diferente)
 
-      const db: mongoDB.Db = client.db(DB_NAME);
+      const db = client.db(DB_NAME);
 
       // const query = { _id: new ObjectId(id) };
       const query = { TradeName: '/Deudores/' };
@@ -52,5 +52,15 @@ export async function MigrationUp(DB_CONN_STRING: string | undefined, DB_NAME: s
 }
 
 export async function MigrationDown(DB_CONN_STRING: string | undefined, DB_NAME: string | undefined): Promise<void> {
-  console.log('Migration Down process started');
+  console.log('Migration Down process started...');
+
+  if (!DB_CONN_STRING) {
+    console.error('Connection string is missing');
+    return;
+  }
+
+  if (!DB_NAME) {
+    console.error('Database name is missing');
+    return;
+  }
 }

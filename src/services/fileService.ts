@@ -26,22 +26,3 @@ export function GetPathFromMigrationFile(fileName: string) {
     throw new Error('File path is missing');
   }
 }
-
-export function runTypeScriptFile(filePath) {
-  const { exec } = require('child_process');
-  const path = require('path');
-
-  const absolutePath = path.resolve(filePath);
-  exec(`ts-node ${absolutePath}`, (error, stdout, stderr) => {
-    if (error) {
-      console.error(`Error executing file: ${error.message}`);
-      return;
-    }
-    if (stderr) {
-      console.error(`Error output: ${stderr}`);
-      return;
-    }
-    console.log(`Output: ${stdout}`);
-  });
-}
-

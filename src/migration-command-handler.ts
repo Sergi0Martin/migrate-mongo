@@ -19,6 +19,8 @@ export async function MigrationUp(
   await Migrate(DB_CONN_STRING, DB_NAME);
 
   console.log('... migration UP process end');
+
+  return await Promise.resolve();
 }
 
 export async function MigrationDown(

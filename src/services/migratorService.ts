@@ -1,5 +1,5 @@
 import { MongoClient } from 'mongodb';
-import { Do, runTypeScriptFile } from './ScriptRunner/ScriptRunnerService';
+import { ApplyMigrationChanges, runTypeScriptFile } from './ScriptRunner/ScriptRunnerService';
 import type { MongoClientOptions } from 'mongodb';
 
 export async function Migrate(
@@ -14,7 +14,7 @@ export async function Migrate(
     appName: 'migrate-mongo',
   };
   const client: MongoClient = new MongoClient(DB_CONN_STRING, options);
-  await client.connect();
+//   await client.connect();
   try {
     if (!(await ExistPendingMigrations(client, DB_NAME))) {
       console.log('No pending migrations');
@@ -24,7 +24,7 @@ export async function Migrate(
     /// Desde aquí debería cargar los archivos de migración y ejecutarlos (cada archivo modifica una collection diferente)
     // for file in migrationFiles
 
-    await Do(client, DB_NAME);
+    await ApplyMigrationChanges(client, DB_NAME);
 
     ///end for file
   } catch (error) {

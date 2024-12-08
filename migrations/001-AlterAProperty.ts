@@ -1,15 +1,20 @@
 // create a new migration file extending from an interface
 // which has the up and down methods
 
-import { ScriptRunner } from '../src/services/ScriptRunner/ScriptRunner';
-import { MigrationScript } from '../src/models/MigrationScript';
+import { IMigration } from '../src/models/IMigration';
+import { Db, MongoClient } from 'mongodb';
 
-export class M001AlterAProperty implements MigrationScript {
-  public async up(): Promise<void> {
-    // await scriptRunner.ScriptRunner(`ALTER TABLE "table_name" ADD COLUMN "column_name" VARCHAR(255)`);
+export class M001AlterAProperty implements IMigration {
+  async up(db: Db, client: MongoClient) {
+    // Example:
+    // await db.collection('albums').updateOne({artist: 'The Beatles'}, {$set: {blacklisted: true}});
+    // const query = { _id: new ObjectId(id) };
+    const query = { TradeName: '/Deudores/' };
+
+    await db
+      .collection('ACCReadCustomers')
+      .updateMany(query, { $set: { TradeName: 'Deudores (euros) 3' } });
   }
 
-  public async down(): Promise<void> {
-    // await queryRunner.RunMigration(`ALTER TABLE "table_name" DROP COLUMN "column_name"`);
-  }
+  down: (db: Db, client: MongoClient) => Promise<void>;
 }
